@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_soc_adder_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_soc_adder" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="75.001 ns"></ZoomEndTime>
+      <Cursor1Time time="5.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="340"></NameColumnWidth>
+      <ValueColumnWidth column_width="140"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="16" />
+   <wvobject fp_name="/tb_soc_adder/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/sel" type="logic">
+      <obj_property name="ElementShortName">sel</obj_property>
+      <obj_property name="ObjectShortName">sel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/wen" type="logic">
+      <obj_property name="ElementShortName">wen</obj_property>
+      <obj_property name="ObjectShortName">wen</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/addr" type="array">
+      <obj_property name="ElementShortName">addr[19:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[19:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/wr_data" type="array">
+      <obj_property name="ElementShortName">wr_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wr_data[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/rd_data" type="array">
+      <obj_property name="ElementShortName">rd_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_data[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/a" type="array">
+      <obj_property name="ElementShortName">a[31:0]</obj_property>
+      <obj_property name="ObjectShortName">a[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/b" type="array">
+      <obj_property name="ElementShortName">b[31:0]</obj_property>
+      <obj_property name="ObjectShortName">b[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/c" type="array">
+      <obj_property name="ElementShortName">c[31:0]</obj_property>
+      <obj_property name="ObjectShortName">c[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/d" type="array">
+      <obj_property name="ElementShortName">d[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/ADDR_REG1" type="array">
+      <obj_property name="ElementShortName">ADDR_REG1[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDR_REG1[19:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/ADDR_REG2" type="array">
+      <obj_property name="ElementShortName">ADDR_REG2[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDR_REG2[19:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/ADDR_REG3" type="array">
+      <obj_property name="ElementShortName">ADDR_REG3[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDR_REG3[19:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/ADDR_REG4" type="array">
+      <obj_property name="ElementShortName">ADDR_REG4[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDR_REG4[19:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc_adder/ADDR_REG5" type="array">
+      <obj_property name="ElementShortName">ADDR_REG5[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDR_REG5[19:0]</obj_property>
+   </wvobject>
+</wave_config>
