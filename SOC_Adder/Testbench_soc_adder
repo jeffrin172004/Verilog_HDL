@@ -1,0 +1,84 @@
+module tb_soc_adder();
+  reg clk, rst, sel, wen;
+  reg [19:0] addr;
+  reg [31:0] wr_data;
+  wire [31:0] rd_data;
+  
+  integer a, b, c, d;
+  
+  parameter ADDR_REG1 = 20'd0, 
+            ADDR_REG2 = 20'd4, 
+            ADDR_REG3 = 20'd8, 
+            ADDR_REG4 = 20'd12,
+            ADDR_REG5 = 20'd16;
+  
+  // Instantiate the soc_adder module
+  soc_adder inst (    
+    .clk(clk),
+    .rst(rst),
+    .sel(sel),
+    .wen(wen),
+    .addr(addr),
+    .wr_data(wr_data),
+    .rd_data(rd_data)
+  );
+  
+  // Generate a clock with a period of 10 units
+  always #5 clk = ~clk;
+  initial clk = 0;
+  
+  // Task to write values to registers, and update a, b, c, d
+  task reg_write_update(input [19:0] addr_val, input [31:0] wr_data_val, output integer updated_val);
+  	begin
+  		sel = 1;
+  		wen = 1;
+  		addr = addr_val;
+  		@(posedge clk);
+  		wr_data = wr_data_val;
+  		updated_val = wr_data_val;  // Update the value of a, b, c, or d
+  		#10;
+  		$display("Write: Address = %0d, Data = %0d", addr, wr_data);
+  	end
+  endtask
+  
+  // Task to read from a register and display `rd_data` directly
+  task reg_read(input [19:0] addr_val);
+  	begin
+  		sel = 1;
+  		wen = 0;
+  		addr = addr_val;
+  		#10;  // Wait to allow data to propagate
+  		$display("Read: Address = %0d, Data = %0d", addr, rd_data);  // Display rd_data directly
+  	end
+  endtask
+  
+  initial begin
+    // Initialize reset and control signals
+    rst = 1;
+    sel = 0;
+    wen = 0;
+    addr = 0;
+    wr_data = 0;
+    #10;
+    
+    // Release reset
+    rst = 0;
+    #10;
+    
+    // Write values to registers and update a, b, c, d with each write
+    reg_write_update(ADDR_REG1, 32'd2, a);
+    reg_write_update(ADDR_REG2, 32'd3, b);
+    reg_write_update(ADDR_REG3, 32'd6, c);
+    reg_write_update(ADDR_REG4, 32'd8, d);
+    
+    // Read the result from the sum register and display `rd_data`
+    reg_read(ADDR_REG5);
+    
+    // Display the expected and actual results for verification
+    $display("Expected sum = %0d, Actual read data = %0d", (a + b + c + d), rd_data);
+    
+    // End simulation
+    $finish;
+  end
+
+endmodule
