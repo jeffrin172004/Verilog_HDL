@@ -1,0 +1,34 @@
+module Counter(
+input clk,rst,
+input en,ld,ud_bar,
+input [7:0]ld_val,
+output reg [7:0]q
+    );
+  always @(posedge clk or posedge rst)
+  begin
+  if(rst)
+  q<=0;
+  else begin
+  if(en) begin
+  if(ld) 
+  q<=ld_val;
+  
+  else begin
+  if(ud_bar) begin
+  if(q==8'd255)
+  q<=0;
+  else
+  q<=q+1;
+  end
+  else begin
+  if(q==0)
+  q<=8'd255;
+  else
+  q<=q-1;
+  end
+  end
+  end
+  end
+  end
+   
+endmodule
