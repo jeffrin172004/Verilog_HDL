@@ -1,0 +1,79 @@
+module tb_Soc_Counter;
+
+  // Testbench signals
+  reg clk;
+  reg rst;
+  reg cs;
+  reg wen;
+  reg [19:0] addr;
+  reg [31:0] wr_data;
+  wire [31:0] rd_data;
+  
+  // Clock generation
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;  // 10ns clock period (50MHz)
+  end
+  
+  // Instantiate the Soc_Counter module
+  Soc_Counter dut (
+    .clk(clk),
+    .rst(rst),
+    .cs(cs),
+    .wen(wen),
+    .addr(addr),
+    .wr_data(wr_data),
+    .rd_data(rd_data)
+  );
+  
+  // Testbench stimulus
+  initial begin
+    // Initialize signals
+    rst = 1;
+    cs = 0;
+    wen = 0;
+    addr = 0;
+    wr_data = 0;
+    
+    // Apply reset
+    #10 rst = 0;  // Deassert reset after 10ns
+    
+    // Write to register reg1 (reset signal for counter)
+    #10 cs = 1; wen = 1; addr = 20'd0; wr_data = 32'h1;  // Assert rst in reg1
+    #10 cs = 1; wen = 1; addr = 20'd0; wr_data = 32'h0;  // Deassert rst in reg1
+    
+    // Write to reg2 (enable counter)
+    #10 cs = 1; wen = 1; addr = 20'd4; wr_data = 32'h1;  // Enable counter in reg2
+    
+    // Write to reg3 (up/down control for counter)
+    #10 cs = 1; wen = 1; addr = 20'd8; wr_data = 32'h1;  // Set ud_bar = 1 (count up)
+    
+    // Write to reg4 (load signal for counter)
+    #10 cs = 1; wen = 1; addr = 20'd12; wr_data = 32'h0;  // ld = 0, no loading yet
+    
+    // Write to reg5 (load value for counter)
+    #10 cs = 1; wen = 1; addr = 20'd16; wr_data = 32'h10;  // Load value = 16
+    
+    // Enable loading and load value into the counter
+    #10 cs = 1; wen = 1; addr = 20'd12; wr_data = 32'h1;  // ld = 1, load value into counter
+    #10 cs = 1; wen = 1; addr = 20'd12; wr_data = 32'h0;  // ld = 0, stop loading
+    
+    // Read the counter value (should be 16 after load)
+    #10 cs = 1; wen = 0; addr = 20'd20;  // Read counter value
+    #10 $display("Counter value after load: %d", rd_data[7:0]);
+    
+    // Wait and observe counting up
+    #50 cs = 1; wen = 0; addr = 20'd20;  // Read counter value
+    #10 $display("Counter value (after counting up): %d", rd_data[7:0]);
+    
+    // Change direction to count down
+    #10 cs = 1; wen = 1; addr = 20'd8; wr_data = 32'h0;  // Set ud_bar = 0 (count down)
+    
+    // Wait and observe counting down
+    #20 cs = 1; wen = 0; addr = 20'd20;  // Read counter value
+    #10 $display("Counter value (after counting down): %d", rd_data[7:0]);
+
+    // Finish the simulation
+    #100 $finish;
+  end
+endmodule
