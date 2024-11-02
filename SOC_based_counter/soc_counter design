@@ -1,0 +1,74 @@
+module Soc_Counter(
+  input clk,rst,cs,wen, //cs chip select
+  input [19:0] addr,
+  input [31:0] wr_data,
+  output reg [31:0] rd_data);
+  
+  reg [31:0] reg1;//rst
+  reg [31:0] reg2;//en
+  reg [31:0] reg3;//ud_bar
+  reg [31:0] reg4;//ld
+  reg [31:0] reg5;//ld_val
+  reg [31:0] reg6;//count
+  
+  wire [7:0] w_count;
+  
+  parameter ADDR_REG1 = 20'd0, ADDR_REG2 = 20'd4, ADDR_REG3 = 20'd8, ADDR_REG4 = 20'd12,ADDR_REG5=20'd16,ADDR_REG6=20'd20;
+  
+  always @(posedge clk)
+    begin
+      if(rst)
+        begin
+          reg1 <= 0;
+          reg2 <= 0;
+          reg3 <= 0;
+          reg4 <= 0;
+          reg5 <= 0;
+          reg6 <= 0;
+        end  
+      else
+        begin
+          if(cs & wen)
+            begin
+              case(addr)
+                ADDR_REG1: reg1 <= wr_data;
+                ADDR_REG2: reg2 <= wr_data;
+                ADDR_REG3: reg3 <= wr_data;
+                ADDR_REG4: reg4 <= wr_data;
+                ADDR_REG5: reg5 <= wr_data;
+                ADDR_REG6: reg6 <= wr_data;
+                
+                default: begin  reg1 <= wr_data; end
+              endcase
+            end
+        end
+    end
+ 
+  
+    always @(posedge clk)
+    begin
+      if(rst)
+        begin
+          rd_data <= 0;
+        end  
+      else
+        begin
+          if(cs & (~wen))
+            begin
+              case(addr)
+                ADDR_REG1: rd_data <= reg1;
+                ADDR_REG2: rd_data <= reg2;
+                ADDR_REG3: rd_data <= reg3;
+                ADDR_REG4: rd_data <= reg4;
+                ADDR_REG5: rd_data <= reg5;
+                ADDR_REG6: rd_data <= w_count;
+                default: begin  rd_data <= reg1; end
+              endcase
+            end
+        end
+    end
+  
+  Counter C(.clk(clk),.rst(reg1[0]),.en(reg2[0]),.ud_bar(reg3[0]),.ld(reg4[0]),.ld_val(reg5[7:0]),.q(w_count));
+
+
+endmodule
