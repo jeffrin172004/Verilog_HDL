@@ -1,0 +1,50 @@
+`timescale 1ns / 1ps
+
+
+module ALU (
+    input [15:0] A,
+    input [15:0] B,
+    input [3:0] SEL,  // to select the operation
+    output reg [31:0] Y
+);
+
+parameter op1 = 4'b0000;
+parameter op2 = 4'b0001;
+parameter op3 = 4'b0010;
+parameter op4 = 4'b0011;
+parameter op5 = 4'b0100;
+parameter op6 = 4'b0101;
+parameter op7 = 4'b0110;
+parameter op8 = 4'b0111;
+parameter op9 = 4'b1000;
+parameter op10 = 4'b1001;
+parameter op11 = 4'b1010;
+parameter op12 = 4'b1011;
+parameter op13 = 4'b1100;
+parameter op14 = 4'b1101;
+parameter op15 = 4'b1110;
+parameter op16 = 4'b1111;
+
+always @(*) begin
+    case (SEL)
+        op1: Y = A + B;            // A + B
+        op2: Y = A - B;            // A - B
+        op3: Y = A & B;            // A AND B
+        op4: Y = A | B;            // A OR B
+        op5: Y = A ^ B;            // A XOR B
+        op6: Y = ~A;               // NOT A
+        op7: Y = A + 1;            // Increment A
+        op8: Y = A - 1;            // Decrement A
+        op9: Y = A << 1;           // Shift Left A
+        op10: Y = A >> 1;          // Shift Right A
+        op11: Y = A * B;           // Multiply A and B, result fits in 32 bits
+        op12: Y = (B != 0) ? A / B : 32'b0; // Divide A by B, handle divide by zero
+        op13: Y = A <<< B;         // Logical Shift Left (circular)
+        op14: Y = A >>> B;         // Logical Shift Right (circular)
+        op15: Y = ~(A | B);        // Bitwise NOR
+        op16: Y = ~(A & B);        // Bitwise NAND
+        default: Y = 32'b0;        // Default case
+    endcase
+end
+
+endmodule
